@@ -33,3 +33,17 @@ class MSE(Evaluation):
             logging.error(f"Error in Calculating MSE: {e}")
             raise e
         
+class R2(Evaluation):
+    """
+    Evaluation Strategy that uses R2 Score
+    """
+    def calculate_scores(self, y_true: np.ndarray, y_pred: np.ndarray):
+        try:
+            logging.info("Calculating R2 Score...")
+            r2 = mean_squared_error(y_true, y_pred)
+            logging.info(f"R2 Score: {r2}")
+            return r2
+        except Exception as e:
+            logging.error(f"Error in Calculating R2 Score: {e}")
+            raise e
+        
