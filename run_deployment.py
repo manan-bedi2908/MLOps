@@ -1,4 +1,4 @@
-from pipelines.deployment_pipeline import continuous_deployment_pipeline
+from pipelines.deployment_pipeline import continuous_deployment_pipeline, inference_pipeline
 from zenml.integrations.constants import MLFLOW
 from zenml.integrations.mlflow.model_deployers.mlflow_model_deployer import (
     MLFlowModelDeployer
@@ -6,6 +6,8 @@ from zenml.integrations.mlflow.model_deployers.mlflow_model_deployer import (
 from zenml.integrations.mlflow.services import MLFlowDeploymentService
 from zenml.integrations.mlflow.steps import mlflow_model_deployer_step
 import click 
+from rich import print
+from typing import cast
 
 DEPLOY = "deploy"
 PREDICT = "predict"
@@ -41,7 +43,10 @@ def run_deployment(config: str, min_accuracy: float):
             workers = 3,
             timeout = 60)
     if predict:
-        inference_pipeline()
+        inference_pipeline(
+            pipeline_name = 'continuous_deployment_pipeline',
+            pipeline_step_name = 'mlflow_model_deployer_step'
+        )
 
     print(
         "You can run:\n "
