@@ -48,4 +48,20 @@ class DataPreprocessStrategy(DataStrategy):
             logging.error(f"Error in preprocessing data: {e}")
             raise e
 
-
+class DataDivideStrategy(DataStrategy):
+    """
+    Strategy for dividing data into Train and Test
+    """
+    def handle_data(self, data: pd.DataFrame) -> Union(pd.DataFrame, pd.Series):
+        """
+        Divide Data into Train and Test
+        """
+        try:
+            X = data.drop(['review_score'], axis = 1)
+            y = data['review_score']
+            X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                                test_size=0.2, random_state=42)
+            return X_train, X_test, y_train, y_test
+        except Exception as e:
+            logging.error(f"Error in Splitting Data: {e}")
+            raise e
