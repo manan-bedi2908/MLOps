@@ -4,5 +4,4 @@ class ModelNameConfig(BaseParameters):
     """
     Model Configs
     """
-    model_name: str = "LinearRegression"
-    
+    model_name: str = "Linear Regression"
