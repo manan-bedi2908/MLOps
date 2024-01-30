@@ -12,7 +12,7 @@ class DataStrategy(ABC):
     """
 
     @abstractmethod
-    def handle_data(self, data: pd.DataFrame) -> Union(pd.DataFrame, pd.Series):
+    def handle_data(self, data: pd.DataFrame) -> Union[pd.DataFrame, pd.Series]:
         pass
 
 class DataPreprocessStrategy(DataStrategy):
@@ -52,7 +52,7 @@ class DataDivideStrategy(DataStrategy):
     """
     Strategy for dividing data into Train and Test
     """
-    def handle_data(self, data: pd.DataFrame) -> Union(pd.DataFrame, pd.Series):
+    def handle_data(self, data: pd.DataFrame) -> Union[pd.DataFrame, pd.Series]:
         """
         Divide Data into Train and Test
         """
@@ -65,3 +65,22 @@ class DataDivideStrategy(DataStrategy):
         except Exception as e:
             logging.error(f"Error in Splitting Data: {e}")
             raise e
+
+class DataCleaning:
+    """
+    Class for Cleaning Data which preprocesses the data and divides it into Train and Test
+    """
+    def __init__(self, data: pd.DataFrame, strategy: DataStrategy):
+        self.data = data
+        self.strategy = strategy
+
+    def handle_data(self) -> Union[pd.DataFrame, pd.Series]:
+        """
+        Handle Data
+        """
+        try: 
+            return self.strategy.handle_data(self.data)
+        except Exception as e:
+            logging.error(f"Error in Handling Data: {e}")
+            raise e
+        
